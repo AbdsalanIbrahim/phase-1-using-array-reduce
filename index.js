@@ -1,42 +1,20 @@
-let batteryBatches = [];
+const batteryBatches = [4, 5, 3, 7, 8, 4];  
 
-function calculateTotalBatteries() {
-    return batteryBatches.reduce((accumulator, currentBatch) => {
-        return accumulator + currentBatch; 
-    }, 0);
+function calculateTotalBatteries(batches) {
+  return batches.reduce((total, batch) => total + batch, 0);
 }
 
-function updateDisplay() {
-    const totalBatteries = calculateTotalBatteries();
-    document.getElementById('totalBatteriesDisplay').textContent = totalBatteries;
-
-    const batchList = document.getElementById('batchList');
-    batchList.innerHTML = ''; 
-    batteryBatches.forEach(batch => {
-        const listItem = document.createElement('li');
-        listItem.textContent = batch;
-        batchList.appendChild(listItem);
-    });
+function displayTotalBatteries(total) {
+  const batteryCountElement = document.getElementById('battery-count');
+  
+  if (batteryCountElement) {
+    batteryCountElement.innerText = `Total Batteries: ${total}`;
+  } else {
+    console.error('Battery count element not found.');
+  }
 }
 
-document.getElementById('addBatchButton').addEventListener('click', () => {
-    const inputField = document.getElementById('batteryBatchInput');
-    const batchValue = parseInt(inputField.value, 10);
+const totalBatteries = calculateTotalBatteries(batteryBatches);
+displayTotalBatteries(totalBatteries);
 
-    if (isNaN(batchValue) || batchValue < 0) {
-        alert('Please enter a valid number greater than or equal to 0.');
-        return;
-    }
-
-    batteryBatches.push(batchValue); 
-    inputField.value = ''; 
-    updateDisplay(); 
-});
-
-document.getElementById('resetButton').addEventListener('click', () => {
-    batteryBatches = []; 
-    document.getElementById('batteryBatchInput').value = ''; 
-    updateDisplay(); 
-});
-
-updateDisplay();
+console.log(`Total Batteries: ${totalBatteries}`);
